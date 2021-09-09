@@ -67,7 +67,9 @@ function App() {
         <FormControl>
           <Select variant="outlined" value="">
             {countries.map((country, index) => (
-              <MenuItem value={index}>{country}</MenuItem>
+              <MenuItem key={index} value={country.value}>
+                {country.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
