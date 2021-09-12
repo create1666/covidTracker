@@ -8,6 +8,15 @@ body {
   background-color: rgb(241, 241, 241);
 }
 
+.app {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.app_left {
+  flex: 0.9;
+}
+
 .app_header {
   display: flex;
   justify-content: space-between;
@@ -18,4 +27,10 @@ body {
 .app_stats {
   display: flex;
   justify-content: space-between;
+}
+
+@media only screen and (max-width: 990px) {
+  .app {
+    flex-direction: column;
+  }
 }

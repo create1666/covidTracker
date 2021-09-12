@@ -1,18 +1,30 @@
 import "./App.css";
-import { FormControl, MenuItem, Select } from "@material-ui/core";
+import {
+  CardContent,
+  FormControl,
+  MenuItem,
+  Select,
+  Card,
+} from "@material-ui/core";
 import { useEffect, useState } from "react";
 import InfoBox from "./InfoBox";
+import MapBox from "./MapBox";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("worldwide");
+  // const initialState = {};
+  const [countryInfo, setCountryInfo] = useState({});
   useEffect(() => {
     const getCountriesData = () => {
-      fetch("https://disease.sh/v3/covid-19/countries", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/countries",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           const countries = data.map((country) => {
@@ -22,17 +34,48 @@ function App() {
             };
           });
           setCountries(countries);
-          console.log(countries);
+          console.log("total countries:", countries);
         })
-        .catch();
+        .catch((e) => console.log(e.message));
     };
     getCountriesData();
   }, []);
 
-  const onhandleChange = (e) => {
-    const countryCode = e.target.value;
-    console.log("i love u:", countryCode);
-    setSelectedCountry(countryCode);
+  const onHandleChange = (e) => {
+    const countryValue = e.target.value;
+    const url =
+      countryValue === "worldwide"
+        ? `https://disease.sh/v3/covid-19/all`
+        : `​https://disease.sh/v3/covid-19/countries/${countryValue}`;
+
+    // fetch(`https://astro-cors-server.herokuapp.com/fetch/${url}`, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((response) => {
+    //     console.log(response.json());
+    //   })
+    //   .then((data) => {
+    //     setSelectedCountry(countryValue);
+    //     setCountryInfo(data);
+    //     console.log("information:::", data);
+    //   })
+    //   .catch((e) => {
+    //     console.log("Error:", e);
+    //   });
+
+    fetch("https://astro-cors-server.herokuapp.com/fetch/" + url, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   };
 
   // useEffect(() => {
@@ -67,28 +110,42 @@ function App() {
   // }, []);
   return (
     <div className="app">
-      <div className="app_header">
-        <h1>COVID-19 TRACKER</h1>
-        <FormControl>
-          <Select
-            onChange={onhandleChange}
-            variant="outlined"
-            value={selectedCountry}
-          >
-            <MenuItem value="worldwide">worldwide</MenuItem>
+      <div className="app_left">
+        <div className="app_header">
+          <h1>COVID-19 TRACKER</h1>
+          <FormControl>
+            <Select
+              onChange={onHandleChange}
+              variant="outlined"
+              value={selectedCountry}
+            >
+              <MenuItem value="worldwide">worldwide</MenuItem>
 
-            {countries.map((country, index) => (
-              <MenuItem key={index} value={country.value}>
-                {country.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {countries.map((country, index) => (
+                <MenuItem key={index} value={country.value}>
+                  {country.name}
+                </MenuItem>
+              ))}
+            </Select>
+            {selectedCountry}
+          </FormControl>
+        </div>
+        <div className="app_stats">
+          <InfoBox title="Coronavirus Cases " cases={333} total={7865} />
+          <InfoBox title="Recovered " cases={47} total={865} />
+          <InfoBox title="Death" cases={247} total={75} />
+        </div>
+        <div className="app_mapBox">
+          <MapBox />
+        </div>
       </div>
-      <div className="app_stats">
-        <InfoBox title="Coronavirus Cases " cases={1247} total={7865} />
-        <InfoBox title="Recovered " cases={47} total={865} />
-        <InfoBox title="Death" cases={247} total={75} />
+      <div className="app_right">
+        <Card>
+          <CardContent>
+            <h3>Live cases by country</h3>
+            <h3>Worldwide new cases</h3>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
