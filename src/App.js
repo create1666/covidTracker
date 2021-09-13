@@ -47,25 +47,8 @@ function App() {
       countryValue === "worldwide"
         ? `https://disease.sh/v3/covid-19/all`
         : `​https://disease.sh/v3/covid-19/countries/${countryValue}`;
-
-    // fetch(`https://astro-cors-server.herokuapp.com/fetch/${url}`, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => {
-    //     console.log(response.json());
-    //   })
-    //   .then((data) => {
-    //     setSelectedCountry(countryValue);
-    //     setCountryInfo(data);
-    //     console.log("information:::", data);
-    //   })
-    //   .catch((e) => {
-    //     console.log("Error:", e);
-    //   });
-
-    fetch("https://astro-cors-server.herokuapp.com/fetch/" + url, {
+    console.log("url:", url);
+    fetch(url.replace("%E2%80%8B", " "), {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -77,6 +60,22 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
+  // fetch(`https://astro-cors-server.herokuapp.com/fetch/${url}`, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // })
+  //   .then((response) => {
+  //     console.log(response.json());
+  //   })
+  //   .then((data) => {
+  //     setSelectedCountry(countryValue);
+  //     setCountryInfo(data);
+  //     console.log("information:::", data);
+  //   })
+  //   .catch((e) => {
+  //     console.log("Error:", e);
+  //   });
 
   // useEffect(() => {
   //   const getCountriesData = async () => {
