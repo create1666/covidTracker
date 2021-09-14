@@ -45,15 +45,10 @@ function App() {
     const countryValue = e.target.value;
     const url =
       countryValue === "worldwide"
-        ? `https://disease.sh/v3/covid-19/all`
-        : `​https://disease.sh/v3/covid-19/countries/${countryValue}`;
-    console.log("url:", url);
-    fetch(url.replace("%E2%80%8B", " "), {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
+        ? "https://disease.sh/v3/covid-19/all"
+        : "https://disease.sh/v3/covid-19/countries/" + countryValue;
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
