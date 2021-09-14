@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import InfoBox from "./InfoBox";
 import MapBox from "./MapBox";
+import axios from "axios";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -48,12 +49,12 @@ function App() {
         ? `https://disease.sh/v3/covid-19/all`
         : `​https://disease.sh/v3/covid-19/countries/${countryValue}`;
     console.log("url:", url);
-    fetch(url.replace("%E2%80%8B", " "), {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
