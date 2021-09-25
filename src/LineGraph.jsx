@@ -2,8 +2,26 @@ import React, { useEffect, useState } from "react";
 import "./LineGraph.css";
 import { Line } from "react-chartjs-2";
 
+const options = {
+  legend: {
+    display: false,
+  },
+  element: {
+    point: {
+      radius: 0,
+    },
+    maintainAspectRatio: false,
+    tooltips: {
+      mode: "index",
+      intersect: false,
+      callback: function (tooltipItem, data) {
+        return numbro(tooltipItem.value).format("+0,0");
+      },
+    },
+  },
+};
 const LineGraph = () => {
-  const chartDataTransformed = (data) => {
+  const chartDataTransformed = (data, caseType = "cases") => {
     const newChartData = [];
     let lastDatapoint;
     for (let date in data.cases) {
@@ -14,7 +32,7 @@ const LineGraph = () => {
         };
         newChartData.push(newDataPoint);
       }
-      lastDatapoint = data["cases"][date];
+      lastDatapoint = data[caseType][date];
     }
     return newChartData;
   };
@@ -29,7 +47,7 @@ const LineGraph = () => {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            let newChartData = chartDataTransformed(data);
+            let newChartData = chartDataTransformed(data, "cases");
             setData(newChartData);
           });
       };
@@ -41,7 +59,18 @@ const LineGraph = () => {
 
   return (
     <div className="chart">
-      <Line data={{ data }} />
+      <Line
+        options={options}
+        data={{
+          datasets: [
+            {
+              data: data,
+              backgroundColor: ["rgba(255, 99, 132, 0.2)"],
+              borderColor: ["rgba(255, 99, 132, 1)"],
+            },
+          ],
+        }}
+      />
     </div>
   );
 };
