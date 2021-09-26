@@ -17,18 +17,19 @@ import Loader from "react-loader-spinner";
 import LineGraph from "./LineGraph";
 
 const useCountryInfo = (country) => {
-  const [countryData, setCountryData] = useState("");
+  const [countryData, setCountryData] = useState({});
 
   async function countryCovidRec(country) {
     const url =
       country === "worldwide"
-        ? "https://disease.sh/v3/covid-19/all"
-        : "https://disease.sh/v3/covid-19/countries/" + country;
+        ? "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/all"
+        : "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/countries/" +
+          country;
     // await sleep(10000);
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("datafix", data);
         covidTrackerCache[country] = data;
         setCountryData(data);
       })
@@ -70,6 +71,7 @@ const useFetchCountries = () => {
       )
         .then((response) => response.json())
         .then((data) => {
+          console.log("datafix3", data);
           const countries = data.map((country) => {
             return {
               name: country.country,
