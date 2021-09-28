@@ -39,7 +39,7 @@ const options = {
           display: false,
         },
         ticks: {
-          // INCLUDES A DOLLER SIGN IN THE TICKS
+          // INCLUDES A DOLLER SIGN IN THE TICK S
           callback: function (value) {
             return numeral(value).format("0a");
           },
@@ -53,6 +53,12 @@ const chartDataTransformed = (data, caseType) => {
   const newChartData = [];
   let lastDatapoint;
   for (let date in data.cases) {
+    const formatDate = () => {
+      let scopedDate = date.toString();
+      const splitdate = scopedDate.split("/");
+      console.log(splitdate);
+    };
+    formatDate();
     if (lastDatapoint) {
       let newDataPoint = {
         x: date,
