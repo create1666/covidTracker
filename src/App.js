@@ -15,6 +15,7 @@ import { sort } from "./util";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import LineGraph from "./LineGraph";
+import "leaflet/dist/leaflet.css";
 
 const useCountryInfo = (country) => {
   const [countryData, setCountryData] = useState({});
@@ -59,6 +60,8 @@ const useFetchCountries = () => {
   const [tableData, setTableData] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo] = useCountryInfo(country);
+  const [mapCenter, setMapCenter] = useState({ lat: 38.0746, lng: -40.4796 });
+  const [mapZoom, setZoomCenter] = useState(3);
   useEffect(() => {
     async function getCountriesData() {
       await fetch(
@@ -98,13 +101,25 @@ const useFetchCountries = () => {
     countryInfo,
     country,
     setCountry,
+    mapCenter,
+    setMapCenter,
+    mapZoom,
+    setZoomCenter,
   };
 };
 
 const covidTrackerCache = {};
 function App() {
-  const { isLoaded, countries, tableData, country, setCountry, countryInfo } =
-    useFetchCountries();
+  const {
+    isLoaded,
+    countries,
+    tableData,
+    country,
+    setCountry,
+    countryInfo,
+    mapCenter,
+    mapZoom,
+  } = useFetchCountries();
 
   const onHandleChange = (e) => {
     const countryValue = e.target.value;
@@ -152,7 +167,7 @@ function App() {
             />
           </div>
           <div className="app_mapBox">
-            <MapBox />
+            <MapBox zoom={mapZoom} center={mapCenter} />
           </div>
         </div>
         <div className="app_right">
