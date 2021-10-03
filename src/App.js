@@ -19,10 +19,11 @@ import "leaflet/dist/leaflet.css";
 
 const useCountryInfo = (country) => {
   const [countryData, setCountryData] = useState({});
-
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapZoom, setZoomCenter] = useState(3);
   async function countryCovidRec(country) {
     const url =
-      country === "worldwide"
+3 [P ]      country === "worldwide"
         ? "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/all"
         : "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/countries/" +
           country;
@@ -32,7 +33,10 @@ const useCountryInfo = (country) => {
       .then((data) => {
         console.log("datafix", data);
         covidTrackerCache[country] = data;
+        console.log("here-:", covidTrackerCache[country]);
         setCountryData(data);
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setZoomCenter(4);
       })
       .catch(() => setCountryData(false));
   }
@@ -50,8 +54,8 @@ const useCountryInfo = (country) => {
   // function sleep(period) {
   //   return new Promise((resolve) => setTimeout(resolve, period));
   // }
-
-  return [countryData];
+  console.log("new-:", { countryData });
+  return { countryData, mapCenter, mapZoom };
 };
 
 const useFetchCountries = () => {
@@ -59,9 +63,11 @@ const useFetchCountries = () => {
   const [countries, setCountries] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [country, setCountry] = useState("worldwide");
-  const [countryInfo] = useCountryInfo(country);
-  const [mapCenter, setMapCenter] = useState({ lat: 38.0746, lng: -40.4796 });
-  const [mapZoom, setZoomCenter] = useState(3);
+  const { countryInfo } = useCountryInfo(country);
+  // const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  // const [mapZoom, setZoomCenter] = useState(3);
+  console.log("info-:", countryInfo);
+
   useEffect(() => {
     async function getCountriesData() {
       await fetch(
@@ -77,8 +83,8 @@ const useFetchCountries = () => {
           console.log("datafix3", data);
           const countries = data.map((country) => {
             return {
-              name: country.country,
-              value: country.countryInfo.iso3,
+              name: country?.country,
+              value: country?.countryInfo?.iso3,
             };
           });
           setCountries(countries);
@@ -86,6 +92,11 @@ const useFetchCountries = () => {
           console.log("sortedvalue:", sortedData);
           setTableData(sortedData);
           setIsLoaded(true);
+          // setMapCenter([
+          //   sortedData?.countryInfo?.lat,
+          //   sortedData?.countryInfo?.long,
+          // ]);
+          // setZoomCenter(4);
           console.log("total countries:", countries);
         })
         .catch((e) => console.log(e.message));
@@ -101,25 +112,13 @@ const useFetchCountries = () => {
     countryInfo,
     country,
     setCountry,
-    mapCenter,
-    setMapCenter,
-    mapZoom,
-    setZoomCenter,
   };
 };
 
 const covidTrackerCache = {};
 function App() {
-  const {
-    isLoaded,
-    countries,
-    tableData,
-    country,
-    setCountry,
-    countryInfo,
-    mapCenter,
-    mapZoom,
-  } = useFetchCountries();
+  const { isLoaded, countries, tableData, country, setCountry, countryInfo } =
+    useFetchCountries();
 
   const onHandleChange = (e) => {
     const countryValue = e.target.value;
@@ -157,8 +156,8 @@ function App() {
             />
             <InfoBox
               title="Recovered "
-              cases={countryInfo ? countryInfo.todayRecovered : "N/A"}
-              total={countryInfo ? countryInfo.recovered : "N/A"}
+              cases={countryInfo ? countryInfo?.todayRecovered : "N/A"}
+              total={countryInfo ? countryInfo?.recovered : "N/A"}
             />
             <InfoBox
               title="Death"
