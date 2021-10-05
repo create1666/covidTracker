@@ -23,7 +23,7 @@ const useCountryInfo = (country) => {
   const [mapZoom, setZoomCenter] = useState(3);
   async function countryCovidRec(country) {
     const url =
-3 [P ]      country === "worldwide"
+      country === "worldwide"
         ? "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/all"
         : "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/countries/" +
           country;
@@ -35,7 +35,7 @@ const useCountryInfo = (country) => {
         covidTrackerCache[country] = data;
         console.log("here-:", covidTrackerCache[country]);
         setCountryData(data);
-        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapCenter({ lat: data.countryInfo.lat, lng: data.countryInfo.long });
         setZoomCenter(4);
       })
       .catch(() => setCountryData(false));
@@ -62,11 +62,12 @@ const useFetchCountries = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [countries, setCountries] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [mapCountries, setMapCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
-  const { countryInfo } = useCountryInfo(country);
+  const { countryData, mapCenter, mapZoom } = useCountryInfo(country);
   // const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   // const [mapZoom, setZoomCenter] = useState(3);
-  console.log("info-:", countryInfo);
+  console.log("info-:", countryData);
 
   useEffect(() => {
     async function getCountriesData() {
@@ -92,6 +93,7 @@ const useFetchCountries = () => {
           console.log("sortedvalue:", sortedData);
           setTableData(sortedData);
           setIsLoaded(true);
+          setMapCountries(data);
           // setMapCenter([
           //   sortedData?.countryInfo?.lat,
           //   sortedData?.countryInfo?.long,
@@ -104,21 +106,36 @@ const useFetchCountries = () => {
     getCountriesData();
   }, []);
 
+  console.log({ countryData }, "diditi");
+
   return {
     isLoaded,
     countries,
     tableData,
     setCountries,
-    countryInfo,
+    countryInfo: countryData,
     country,
     setCountry,
+    mapCenter,
+    setMapCountries,
+    mapZoom,
+    mapCountries,
   };
 };
 
 const covidTrackerCache = {};
 function App() {
-  const { isLoaded, countries, tableData, country, setCountry, countryInfo } =
-    useFetchCountries();
+  const {
+    isLoaded,
+    countries,
+    tableData,
+    country,
+    setCountry,
+    countryInfo,
+    mapCenter,
+    mapCountries,
+    mapZoom,
+  } = useFetchCountries();
 
   const onHandleChange = (e) => {
     const countryValue = e.target.value;
@@ -166,14 +183,22 @@ function App() {
             />
           </div>
           <div className="app_mapBox">
-            <MapBox zoom={mapZoom} center={mapCenter} />
+            <MapBox
+              zoom={mapZoom}
+              center={mapCenter}
+              countries={mapCountries}
+            />
           </div>
         </div>
         <div className="app_right">
           <Card>
             <CardContent>
               <h3>Live cases by country</h3>
-              <Table countries={tableData}></Table>
+              <Table
+                countries={tableData}
+                setCountry={setCountry}
+                country={country}
+              ></Table>
               <h3>Worldwide new cases</h3>
             </CardContent>
           </Card>
