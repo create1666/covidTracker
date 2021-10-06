@@ -5,23 +5,23 @@ const Table = ({ countries, setCountry, country: selectedCountry }) => {
   return (
     <div className="table">
       {countries.map(({ country, countryInfo, cases }) => {
-        <>
-          return (
-          <tr
-            key={country}
-            style={{ background: selectedCountry === country && "pink" }}
-            onClick={() => {
-              setCountry(countryInfo?.iso3);
-              console.log({ country });
-            }}
-          >
-            <td>{country}</td>
-            <td>
-              <strong>{cases}</strong>
-            </td>
-          </tr>
-          );
-        </>;
+        return (
+          <>
+            <tr
+              key={country}
+              style={{ background: selectedCountry === country && "pink" }}
+              onClick={() => {
+                setCountry(countryInfo?.iso3);
+                console.log({ country });
+              }}
+            >
+              <td>{country}</td>
+              <td>
+                <strong>{cases}</strong>
+              </td>
+            </tr>
+          </>
+        );
       })}
     </div>
   );
