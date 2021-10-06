@@ -1,21 +1,22 @@
-.table {
+table {
   margin-top: 20px;
+  display: block;
   overflow: scroll;
   color: #96525c;
   height: 400px;
 }
 
-.table tr {
+table tbody tr {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
   cursor: pointer;
 }
 
-.table tr:nth-of-type(odd) {
+table tbody tr:nth-of-type(odd) {
   background-color: lightblue;
 }
 
-.table tr:hover {
+tr:hover {
   background-color: lightcoral;
 }

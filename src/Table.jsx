@@ -3,10 +3,10 @@ import "./Table.css";
 const Table = ({ countries, setCountry, country: selectedCountry }) => {
   console.log({ selectedCountry, countries });
   return (
-    <div className="table">
-      {countries.map(({ country, countryInfo, cases }) => {
-        return (
-          <>
+    <table className="table">
+      <tbody>
+        {countries.map(({ country, countryInfo, cases }) => {
+          return (
             <tr
               key={country}
               style={{ background: selectedCountry === country && "pink" }}
@@ -20,10 +20,10 @@ const Table = ({ countries, setCountry, country: selectedCountry }) => {
                 <strong>{cases}</strong>
               </td>
             </tr>
-          </>
-        );
-      })}
-    </div>
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
 
