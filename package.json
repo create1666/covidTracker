@@ -8,16 +8,26 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
+    "chart.js": "^3.5.1",
+    "leaflet": "^1.7.1",
+    "numbro": "^2.3.5",
+    "numeral": "^2.0.6",
     "react": "^17.0.2",
+    "react-chartjs-2": "^3.0.5",
+    "react-css-loaders": "^0.0.6",
     "react-dom": "^17.0.2",
+    "react-loader-spinner": "^4.0.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "react-leaflet": ">=3.1.0 <3.2.0 || ^3.2.1",
+    "@react-leaflet/core": ">=1.0.0 <1.1.0 || ^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint \"src/**/*.{js, jsx}\" --quiet"
   },
   "eslintConfig": {
     "extends": [
@@ -25,16 +35,13 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0"
   }
 }
