@@ -87,7 +87,9 @@ const LineGraph = ({ caseType = "cases" }) => {
 
   useEffect(() => {
     getChartData();
-    return () => {};
+    return () => {
+      setData({});
+    };
   }, []);
   async function getChartData() {
     let f = await fetch(
