@@ -8,13 +8,13 @@ import {
   Select,
   Card,
 } from "@material-ui/core";
-import InfoBox from "./InfoBox";
-import MapBox from "./MapBox";
-import Table from "./Table";
+import InfoBox from "./InfoBox.jsx";
+import MapBox from "./MapBox.jsx";
+import Table from "./Table.jsx";
 import { sort } from "./util";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-import LineGraph from "./LineGraph";
+import LineGraph from "./LineGraph.jsx";
 import "leaflet/dist/leaflet.css";
 
 const useCountryInfo = (country) => {

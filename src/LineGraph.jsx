@@ -59,10 +59,9 @@ const chartDataTransformed = (data, caseType) => {
     let scopedDate = date;
 
     const splitdate = scopedDate.split("/"); //12/8/2021
-    const month = splitdate.map((el, index, array) => {
-      return array[0];
-    });
+
     const day = splitdate[1];
+    const month = splitdate[0];
     const year = splitdate[2];
     const getMatchedMonth = getMonth(month);
     const formattedDate = `${getMatchedMonth} ${day}, ${year}`;
@@ -72,6 +71,7 @@ const chartDataTransformed = (data, caseType) => {
   for (let date in data.cases) {
     if (lastDatapoint) {
       let newDataPoint = {
+        //
         x: formatDate(date),
         y: data[caseType][date] - lastDatapoint,
       };
@@ -92,13 +92,15 @@ const LineGraph = ({ caseType = "cases" }) => {
     };
   }, []);
   async function getChartData() {
+    const you = "herewe";
+    console.log(you, "check");
     let f = await fetch(
       "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/historical/all?lastdays=120"
     );
     let newTransformeddata = await f.json();
     let newChartData = chartDataTransformed(newTransformeddata, caseType);
     setData(newChartData);
-    console.log(newTransformeddata, "caseswehave");
+    console.log("caseswehave", newChartData);
   }
   return (
     <div className="chart">
