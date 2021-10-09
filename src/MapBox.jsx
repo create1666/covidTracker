@@ -1,9 +1,8 @@
 import "./Map.css";
-import { Circle, MapContainer, TileLayer } from "react-leaflet";
-// eslint-disable-next-line import/named
-import { caseTypeColors } from "./util.js";
+import { MapContainer, TileLayer, Circle } from "react-leaflet";
+import { caseTypeColors } from "./util";
 
-const MapBox = ({ center, zoom, countries, caseType = "death" }) => {
+const MapBox = ({ center, zoom, countries, caseType = "deaths" }) => {
   return (
     <div className="map">
       <MapContainer center={center} zoom={zoom}>
@@ -11,23 +10,20 @@ const MapBox = ({ center, zoom, countries, caseType = "death" }) => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
         {countries.map((country) => (
           <Circle
             center={{
-              lat: country?.countryInfo?.lat,
-              lng: country?.countryInfo?.long,
+              lat: country.countryInfo.lat,
+              lng: country.countryInfo.long,
             }}
             key={country.country}
-            color={caseTypeColors[caseType]?.hex}
             radius={
               Math.sqrt(country[caseType]) * caseTypeColors[caseType].multiplier
             }
             fillOpacity={0.4}
+            color={caseTypeColors[caseType].hex}
           />
         ))}
-
-        {/* <Popup>I'm a pop-UP</Popup> */}
       </MapContainer>
     </div>
   );

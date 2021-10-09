@@ -1,4 +1,4 @@
-import { Circle, Popup } from "react-leaflet";
+// import { Circle, Popup } from "react-leaflet";
 
 export const sort = (data) => {
   const sortedData = [...data];
@@ -20,26 +20,26 @@ export const caseTypeColors = {
     hex: "#41354d",
     multiplier: 900,
   },
-  death: {
+  deaths: {
     hex: "#552607",
-    multiplier: 300,
+    multiplier: 600,
   },
 };
 
-export const drawMapCircles = (data, caseType = "cases") => {
-  data.map((country) => {
-    <Circle
-      center={(country.countryInfo.lat, country.countryInfo.long)}
-      fillOpacity={0.4}
-      color={caseTypeColors[caseType].hex}
-      radius={
-        Math.sqrt(country[caseType]) * caseTypeColors[caseType].multiplier
-      }
-    >
-      <Popup>I'm a pop-UP</Popup>
-    </Circle>;
-  });
-};
+// export const drawMapCircles = (data, caseType = "cases") => {
+//   data.map((country) => {
+//     <Circle
+//       center={(country.countryInfo.lat, country.countryInfo.long)}
+//       fillOpacity={0.4}
+//       color={caseTypeColors[caseType].hex}
+//       radius={
+//         Math.sqrt(country[caseType]) * caseTypeColors[caseType].multiplier
+//       }
+//     >
+//       <Popup>I'm a pop-UP</Popup>
+//     </Circle>;
+//   });
+// };
 
 export const getMonth = (month) => {
   let newMonth;
