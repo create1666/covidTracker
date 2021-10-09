@@ -1,7 +1,7 @@
 import "./Map.css";
 import { Circle, MapContainer, TileLayer } from "react-leaflet";
 // eslint-disable-next-line import/named
-import { caseTypeColors } from "./util";
+import { caseTypeColors } from "./util.js";
 
 const MapBox = ({ center, zoom, countries, caseType }) => {
   return (
@@ -14,12 +14,12 @@ const MapBox = ({ center, zoom, countries, caseType }) => {
 
         {countries.map((country) => (
           <Circle
-            caseTypeColors
             center={{
               lat: country.countryInfo.lat,
               lng: country.countryInfo.long,
             }}
             key={country.country}
+            color={caseTypeColors[caseType].hex}
             radius={
               Math.sqrt(country[caseType]) * caseTypeColors[caseType].multiplier
             }
