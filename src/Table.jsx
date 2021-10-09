@@ -14,7 +14,6 @@ const Table = ({ countries, setCountry, country: selectedCountry }) => {
                 style={{ background: selectedCountry === country && "pink" }}
                 onClick={() => {
                   setCountry(countryInfo?.iso3);
-                  console.log({ country });
                 }}
               >
                 <td>{country}</td>

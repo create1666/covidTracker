@@ -17,6 +17,9 @@ import Loader from "react-loader-spinner";
 import LineGraph from "./LineGraph.jsx";
 import "leaflet/dist/leaflet.css";
 
+const covidTrackerCache = {};
+const worldwide = "worldwide";
+
 const useCountryInfo = (country) => {
   const [countryData, setCountryData] = useState({});
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
@@ -27,22 +30,24 @@ const useCountryInfo = (country) => {
         ? "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/all"
         : "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/countries/" +
           country;
-    // await sleep(10000);
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("datafix", data);
         covidTrackerCache[country] = data;
-        console.log("here-:", covidTrackerCache[country]);
         setCountryData(data);
-        setMapCenter({ lat: data.countryInfo.lat, lng: data.countryInfo.long });
-        setZoomCenter(4);
+
+        if (country !== worldwide) {
+          setMapCenter({
+            lat: data?.countryInfo?.lat,
+            lng: data?.countryInfo?.long,
+          });
+          setZoomCenter(4);
+        }
       })
       .catch(() => setCountryData(false));
   }
 
   useEffect(() => {
-    console.log("finding country");
     if (!country) {
       setCountryData({});
     } else if (covidTrackerCache[country]) {
@@ -54,7 +59,7 @@ const useCountryInfo = (country) => {
   // function sleep(period) {
   //   return new Promise((resolve) => setTimeout(resolve, period));
   // }
-  console.log("new-:", { countryData });
+  // console.log("new-:", { countryData });
   return { countryData, mapCenter, mapZoom };
 };
 
@@ -65,9 +70,6 @@ const useFetchCountries = () => {
   const [mapCountries, setMapCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const { countryData, mapCenter, mapZoom } = useCountryInfo(country);
-  // const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
-  // const [mapZoom, setZoomCenter] = useState(3);
-  console.log("info-:", countryData);
 
   useEffect(() => {
     async function getCountriesData() {
@@ -94,19 +96,11 @@ const useFetchCountries = () => {
           setTableData(sortedData);
           setIsLoaded(true);
           setMapCountries(data);
-          // setMapCenter([
-          //   sortedData?.countryInfo?.lat,
-          //   sortedData?.countryInfo?.long,
-          // ]);
-          // setZoomCenter(4);
-          console.log("total countries:", countries);
         })
         .catch((e) => console.log(e.message));
     }
     getCountriesData();
   }, []);
-
-  console.log({ countryData }, "diditi");
 
   return {
     isLoaded,
@@ -123,7 +117,6 @@ const useFetchCountries = () => {
   };
 };
 
-const covidTrackerCache = {};
 function App() {
   const {
     isLoaded,
@@ -214,7 +207,6 @@ function App() {
         <CovidTracker />
       ) : (
         <div className="spinLoader">
-          {" "}
           <Loader
             type="Puff"
             color="#00BFFF"
