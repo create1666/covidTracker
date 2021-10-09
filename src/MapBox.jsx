@@ -1,6 +1,7 @@
 import "./Map.css";
-import { MapContainer, TileLayer } from "react-leaflet";
-import { drawMapCircles } from "./util";
+import { Circle, MapContainer, TileLayer } from "react-leaflet";
+// eslint-disable-next-line import/named
+import { caseTypeColors } from "./util";
 
 const MapBox = ({ center, zoom, countries, caseType }) => {
   return (
@@ -11,7 +12,24 @@ const MapBox = ({ center, zoom, countries, caseType }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {drawMapCircles(countries, caseType)}
+        {countries.map((country) => (
+          <Circle
+            caseTypeColors
+            center={{
+              lat: country.countryInfo.lat,
+              lng: country.countryInfo.long,
+            }}
+            key={country.country}
+            radius={
+              Math.sqrt(country[caseType]) * caseTypeColors[caseType].multiplier
+            }
+            fillOpacity={0.4}
+          >
+            {" "}
+          </Circle>
+        ))}
+
+        {/* <Popup>I'm a pop-UP</Popup> */}
       </MapContainer>
     </div>
   );

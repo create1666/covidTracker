@@ -11,7 +11,7 @@ export const sort = (data) => {
   });
 };
 
-const caseTypeColors = {
+export const caseTypeColors = {
   cases: {
     hex: "#e0115f",
     multiplier: 700,
