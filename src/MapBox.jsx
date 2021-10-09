@@ -3,7 +3,7 @@ import { Circle, MapContainer, TileLayer } from "react-leaflet";
 // eslint-disable-next-line import/named
 import { caseTypeColors } from "./util.js";
 
-const MapBox = ({ center, zoom, countries, caseType }) => {
+const MapBox = ({ center, zoom, countries, caseType = "death" }) => {
   return (
     <div className="map">
       <MapContainer center={center} zoom={zoom}>
@@ -15,18 +15,16 @@ const MapBox = ({ center, zoom, countries, caseType }) => {
         {countries.map((country) => (
           <Circle
             center={{
-              lat: country.countryInfo.lat,
-              lng: country.countryInfo.long,
+              lat: country?.countryInfo?.lat,
+              lng: country?.countryInfo?.long,
             }}
             key={country.country}
-            color={caseTypeColors[caseType].hex}
+            color={caseTypeColors[caseType]?.hex}
             radius={
               Math.sqrt(country[caseType]) * caseTypeColors[caseType].multiplier
             }
             fillOpacity={0.4}
-          >
-            {" "}
-          </Circle>
+          />
         ))}
 
         {/* <Popup>I'm a pop-UP</Popup> */}
