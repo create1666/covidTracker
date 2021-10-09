@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import "./LineGraph.css";
 import { Line } from "react-chartjs-2";
-import { getMonth } from "./util";
+// import { getMonth } from "./util";
 // import numeral from "numeral";
 // import numbro from "numbro";
 // import numeral from "numeral";
@@ -51,39 +51,43 @@ const options = {
   },
 };
 
-const chartDataTransformed = (data, caseType) => {
+// const formatDate = (date) => {
+//   let scopedDate = date;
+
+//   const splitdate = scopedDate.split("/"); //12/8/2021
+
+//   const day = splitdate[1];
+//   const month = splitdate[0];
+//   const year = splitdate[2];
+//   const getMatchedMonth = getMonth(month);
+//   const formattedDate = `${getMatchedMonth} ${day}, ${year}`;
+//   return formattedDate;
+// };
+
+const chartDataTransformed = (data, caseType = "cases") => {
   const newChartData = [];
-  let lastDatapoint;
+  let lastDatapoint = data[caseType][0];
 
-  const formatDate = (date) => {
-    let scopedDate = date;
+  console.log(lastDatapoint);
 
-    const splitdate = scopedDate.split("/"); //12/8/2021
+  // for (let date in data.cases) {
+  //   if (lastDatapoint) {
+  //     let newDataPoint = {
+  //       //
+  //       x: formatDate(date),
+  //       y: data[caseType][date] - lastDatapoint,
+  //     };
+  //     newChartData.push(newDataPoint);
+  //   }
+  //   lastDatapoint = data[caseType][date];
+  // }
 
-    const day = splitdate[1];
-    const month = splitdate[0];
-    const year = splitdate[2];
-    const getMatchedMonth = getMonth(month);
-    const formattedDate = `${getMatchedMonth} ${day}, ${year}`;
-    return formattedDate;
-  };
-
-  for (let date in data.cases) {
-    if (lastDatapoint) {
-      let newDataPoint = {
-        //
-        x: formatDate(date),
-        y: data[caseType][date] - lastDatapoint,
-      };
-      newChartData.push(newDataPoint);
-    }
-    lastDatapoint = data[caseType][date];
-  }
   return newChartData;
 };
 
 const LineGraph = ({ caseType = "cases" }) => {
   const [data, setData] = useState({});
+  const [, setHistory] = useState({});
 
   useEffect(() => {
     getChartData();
@@ -92,13 +96,13 @@ const LineGraph = ({ caseType = "cases" }) => {
     };
   }, []);
   async function getChartData() {
-    const you = "herewe";
-    console.log(you, "check");
-    let f = await fetch(
+    let historyData = await fetch(
       "https://astro-cors-server.herokuapp.com/fetch/https://disease.sh/v3/covid-19/historical/all?lastdays=120"
     );
-    let newTransformeddata = await f.json();
-    let newChartData = chartDataTransformed(newTransformeddata, caseType);
+    historyData = await historyData.json();
+    console.log(historyData);
+    setHistory(historyData);
+    let newChartData = chartDataTransformed(historyData, caseType);
     setData(newChartData);
     console.log("caseswehave", newChartData);
   }

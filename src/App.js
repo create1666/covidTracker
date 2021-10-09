@@ -41,7 +41,7 @@ const useCountryInfo = (country) => {
             lat: data?.countryInfo?.lat,
             lng: data?.countryInfo?.long,
           });
-          setZoomCenter(4);
+          setZoomCenter(6);
         }
       })
       .catch(() => setCountryData(false));
@@ -83,7 +83,7 @@ const useFetchCountries = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("datafix3", data);
+          // console.log("datafix3", data);
           const countries = data.map((country) => {
             return {
               name: country?.country,
@@ -92,7 +92,7 @@ const useFetchCountries = () => {
           });
           setCountries(countries);
           const sortedData = sort(data);
-          console.log("sortedvalue:", sortedData);
+          // console.log("sortedvalue:", sortedData);
           setTableData(sortedData);
           setIsLoaded(true);
           setMapCountries(data);

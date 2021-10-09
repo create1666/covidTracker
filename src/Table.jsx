@@ -1,10 +1,8 @@
 import "./Table.css";
 
 const Table = ({ countries, setCountry, country: selectedCountry }) => {
-  console.log({ selectedCountry, countries });
   return (
     <div className="tablediv">
-      {" "}
       <table className="table">
         <tbody>
           {countries.map(({ country, countryInfo, cases }) => {
