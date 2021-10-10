@@ -1,9 +1,14 @@
 import "./Map.css";
 import { MapContainer, TileLayer, Circle, Popup } from "react-leaflet";
 import { caseTypeColors } from "./util.js";
+import numeral from "numeral";
 
 const MapBox = ({ center, zoom, countries, caseType = "cases" }) => {
-  console.log("colors", caseTypeColors["cases"]);
+  console.log("flame", countries);
+
+  const [{ countryInfo }] = countries;
+  console.log("flag", countryInfo.flag);
+
   return (
     <div className="map">
       <MapContainer center={center} zoom={zoom}>
@@ -24,7 +29,27 @@ const MapBox = ({ center, zoom, countries, caseType = "cases" }) => {
             fillOpacity={0.4}
             color={caseTypeColors[caseType].hex}
           >
-            <Popup>I'm a pop-UP</Popup>
+            <Popup>
+              <div className="info-container">
+                <img
+                  alt="flag"
+                  className="info-flag"
+                  style={{
+                    backgroundImage: `url(${country?.countryInfo?.flag})`,
+                  }}
+                />
+                <div className="info-name">{country.country}</div>
+                <div className="info-cases">
+                  Cases: {numeral(country.cases).format("0,0")}
+                </div>
+                <div className="info-deaths">
+                  Deaths: {numeral(country.deaths).format("0,0")}
+                </div>
+                <div className="info-recovered">
+                  Recovered: {numeral(country.recovered).format("0,0")}
+                </div>
+              </div>
+            </Popup>
           </Circle>
         ))}
       </MapContainer>
