@@ -2,7 +2,7 @@ import "./Map.css";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
 import { caseTypeColors } from "./util";
 
-const MapBox = ({ center, zoom, countries, caseType = "deaths" }) => {
+const MapBox = ({ center, zoom, countries, caseType = "cases" }) => {
   return (
     <div className="map">
       <MapContainer center={center} zoom={zoom}>
@@ -22,7 +22,7 @@ const MapBox = ({ center, zoom, countries, caseType = "deaths" }) => {
             }
             fillOpacity={0.4}
             color={caseTypeColors[caseType].hex}
-          />
+          ></Circle>
         ))}
       </MapContainer>
     </div>
