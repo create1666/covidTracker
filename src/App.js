@@ -35,8 +35,13 @@ const useCountryInfo = (country) => {
         covidTrackerCache[country] = data;
         console.log("here-:", covidTrackerCache[country]);
         setCountryData(data);
-        setMapCenter({ lat: data.countryInfo.lat, lng: data.countryInfo.long });
-        setZoomCenter(4);
+        if (country !== "worldwide") {
+          setMapCenter({
+            lat: data?.countryInfo?.lat,
+            lng: data?.countryInfo?.long,
+          });
+          setZoomCenter(4);
+        }
       })
       .catch(() => setCountryData(false));
   }
@@ -65,8 +70,7 @@ const useFetchCountries = () => {
   const [mapCountries, setMapCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const { countryData, mapCenter, mapZoom } = useCountryInfo(country);
-  // const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
-  // const [mapZoom, setZoomCenter] = useState(3);
+
   console.log("info-:", countryData);
 
   useEffect(() => {
@@ -89,16 +93,12 @@ const useFetchCountries = () => {
             };
           });
           setCountries(countries);
+          setMapCountries(data);
           const sortedData = sort(data);
           console.log("sortedvalue:", sortedData);
           setTableData(sortedData);
           setIsLoaded(true);
-          setMapCountries(data);
-          // setMapCenter([
-          //   sortedData?.countryInfo?.lat,
-          //   sortedData?.countryInfo?.long,
-          // ]);
-          // setZoomCenter(4);
+
           console.log("total countries:", countries);
         })
         .catch((e) => console.log(e.message));
@@ -168,8 +168,8 @@ function App() {
           <div className="app_stats">
             <InfoBox
               title="Coronavirus Cases "
-              cases={countryInfo ? countryInfo.todayCases : "N/A"}
-              total={countryInfo ? countryInfo.cases : "N/A"}
+              cases={countryInfo ? countryInfo?.todayCases : "N/A"}
+              total={countryInfo ? countryInfo?.cases : "N/A"}
             />
             <InfoBox
               title="Recovered "
@@ -178,8 +178,8 @@ function App() {
             />
             <InfoBox
               title="Death"
-              cases={countryInfo ? countryInfo.todayDeaths : "N/A"}
-              total={countryInfo ? countryInfo.deaths : "N/A"}
+              cases={countryInfo ? countryInfo?.todayDeaths : "N/A"}
+              total={countryInfo ? countryInfo?.deaths : "N/A"}
             />
           </div>
           <div className="app_mapBox">
