@@ -37,8 +37,8 @@ const useCountryInfo = (country) => {
         setCountryData(data);
         if (country !== "worldwide") {
           setMapCenter({
-            lat: data.countryInfo.lat,
-            lng: data.countryInfo.long,
+            lat: data?.countryInfo?.lat,
+            lng: data?.countryInfo?.long,
           });
           setZoomCenter(4);
         }
@@ -70,8 +70,7 @@ const useFetchCountries = () => {
   const [mapCountries, setMapCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const { countryData, mapCenter, mapZoom } = useCountryInfo(country);
-  // const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
-  // const [mapZoom, setZoomCenter] = useState(3);
+
   console.log("info-:", countryData);
 
   useEffect(() => {
@@ -94,16 +93,12 @@ const useFetchCountries = () => {
             };
           });
           setCountries(countries);
+          setMapCountries(data);
           const sortedData = sort(data);
           console.log("sortedvalue:", sortedData);
           setTableData(sortedData);
           setIsLoaded(true);
-          // setMapCountries(data);
-          // setMapCenter([
-          //   sortedData?.countryInfo?.lat,
-          //   sortedData?.countryInfo?.long,
-          // ]);
-          // setZoomCenter(4);
+
           console.log("total countries:", countries);
         })
         .catch((e) => console.log(e.message));

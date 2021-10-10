@@ -1,8 +1,9 @@
 import "./Map.css";
-import { MapContainer, TileLayer, Circle } from "react-leaflet";
-import { caseTypeColors } from "./util";
+import { MapContainer, TileLayer, Circle, Popup } from "react-leaflet";
+import { caseTypeColors } from "./util.js";
 
-const MapBox = ({ center, zoom, countries, caseType = "deaths" }) => {
+const MapBox = ({ center, zoom, countries, caseType = "cases" }) => {
+  console.log("colors", caseTypeColors["cases"]);
   return (
     <div className="map">
       <MapContainer center={center} zoom={zoom}>
@@ -13,8 +14,8 @@ const MapBox = ({ center, zoom, countries, caseType = "deaths" }) => {
         {countries.map((country) => (
           <Circle
             center={{
-              lat: country.countryInfo.lat,
-              lng: country.countryInfo.long,
+              lat: country?.countryInfo?.lat,
+              lng: country?.countryInfo?.long,
             }}
             key={country.country}
             radius={
@@ -22,7 +23,9 @@ const MapBox = ({ center, zoom, countries, caseType = "deaths" }) => {
             }
             fillOpacity={0.4}
             color={caseTypeColors[caseType].hex}
-          />
+          >
+            <Popup>I'm a pop-UP</Popup>
+          </Circle>
         ))}
       </MapContainer>
     </div>
