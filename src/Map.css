@@ -10,20 +10,18 @@
   height: 100%;
 }
 
+.info-container {
+  width: 150px;
+}
 img {
-  height: 80px;
-  width: 100px;
+  min-height: 80px;
+  min-width: 100px;
   background-size: cover;
-  border-radius: 8px;
 }
 
 .info-flag {
-  width: 100px;
+  width: 100%;
   border-radius: 5px;
-}
-
-.info-container {
-  width: 150px;
 }
 .info-recovered,
 .info-name,

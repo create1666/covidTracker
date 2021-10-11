@@ -1,0 +1,44 @@
+.infoBox {
+  flex: 1;
+  cursor: pointer;
+}
+
+.infoBox--selectedCase {
+  border-top: 10px solid #ef107c;
+  border-radius: 5px;
+}
+
+.infoBox--recovered {
+  border-top: 10px solid #7def10;
+  border-radius: 5px;
+}
+
+.infoBox--deaths {
+  border-top: 10px solid #020300;
+  border-radius: 5px;
+}
+
+.infoBox:not(:last-child) {
+  margin-right: 15px;
+}
+
+.infoBoxcases {
+  font-weight: 600 !important;
+  color: #b71ae5 !important;
+  font-size: 1.7rem !important;
+  margin-bottom: 0.5rem;
+}
+
+.infoBoxcases--recoveredText {
+  color: #e7f609 !important;
+}
+
+.infoBoxcases--deaths {
+  color: #120119 !important;
+}
+
+.infoBox_total {
+  font-weight: 700 !important;
+  color: #120119 !important;
+  font-size: 0.9rem !important;
+}

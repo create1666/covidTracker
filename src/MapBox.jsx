@@ -32,7 +32,7 @@ const MapBox = ({ center, zoom, countries, caseType = "cases" }) => {
             <Popup>
               <div className="info-container">
                 <img
-                  alt="flag"
+                  alt=""
                   className="info-flag"
                   style={{
                     backgroundImage: `url(${country?.countryInfo?.flag})`,

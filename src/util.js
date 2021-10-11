@@ -1,5 +1,5 @@
 // import { Circle, Popup } from "react-leaflet";
-
+import numeral from "numeral";
 import { Circle, Popup } from "react-leaflet";
 
 export const sort = (data) => {
@@ -35,7 +35,7 @@ export const caseTypeColors = {
     multiplier: 200,
   },
   recovered: {
-    hex: "#41354d",
+    hex: "#d1df08",
     multiplier: 200,
   },
   deaths: {
@@ -73,4 +73,8 @@ export const getMonth = (month) => {
     newMonth = "Dec";
   }
   return newMonth;
+};
+
+export const prettifyStats = (stat) => {
+  return stat ? `+${numeral(stat).format("0.0a")}` : "+0";
 };
