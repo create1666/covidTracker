@@ -11,7 +11,7 @@ import {
 import InfoBox from "./InfoBox.jsx";
 import MapBox from "./MapBox.jsx";
 import Table from "./Table.jsx";
-import { sort } from "./util";
+import { prettifyStats, sort } from "./util";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import LineGraph from "./LineGraph.jsx";
@@ -125,6 +125,8 @@ const useFetchCountries = () => {
 
 const covidTrackerCache = {};
 function App() {
+  const [caseType, setCaseType] = useState("cases");
+
   const {
     isLoaded,
     countries,
@@ -167,23 +169,39 @@ function App() {
           </div>
           <div className="app_stats">
             <InfoBox
+              isRed
+              active={caseType === "cases"}
               title="Coronavirus Cases "
-              cases={countryInfo ? countryInfo?.todayCases : "N/A"}
-              total={countryInfo ? countryInfo?.cases : "N/A"}
+              onClick={() => setCaseType("cases")}
+              cases={
+                countryInfo ? prettifyStats(countryInfo?.todayCases) : "N/A"
+              }
+              total={countryInfo ? prettifyStats(countryInfo?.cases) : "N/A"}
             />
             <InfoBox
+              isGreen={caseType === "recovered"}
+              onClick={() => setCaseType("recovered")}
               title="Recovered "
-              cases={countryInfo ? countryInfo?.todayRecovered : "N/A"}
-              total={countryInfo ? countryInfo?.recovered : "N/A"}
+              cases={
+                countryInfo ? prettifyStats(countryInfo?.todayRecovered) : "N/A"
+              }
+              total={
+                countryInfo ? prettifyStats(countryInfo?.recovered) : "N/A"
+              }
             />
             <InfoBox
               title="Death"
-              cases={countryInfo ? countryInfo?.todayDeaths : "N/A"}
-              total={countryInfo ? countryInfo?.deaths : "N/A"}
+              isBlack={caseType === "deaths"}
+              onClick={() => setCaseType("deaths")}
+              cases={
+                countryInfo ? prettifyStats(countryInfo?.todayDeaths) : "N/A"
+              }
+              total={countryInfo ? prettifyStats(countryInfo?.deaths) : "N/A"}
             />
           </div>
           <div className="app_mapBox">
             <MapBox
+              caseType={caseType}
               zoom={mapZoom}
               center={mapCenter}
               countries={mapCountries}
@@ -191,7 +209,7 @@ function App() {
           </div>
         </div>
         <div className="app_right">
-          <Card>
+          <Card className="app__card">
             <CardContent>
               <h3>Live cases by country</h3>
               <Table
@@ -199,10 +217,10 @@ function App() {
                 setCountry={setCountry}
                 country={country}
               ></Table>
-              <h3>Worldwide new cases</h3>
+              <h3 className="app__lineGraph-head">Worldwide new {caseType}</h3>
+              <LineGraph className="app__lineGraph" caseType={caseType} />
             </CardContent>
           </Card>
-          <LineGraph />
         </div>
       </div>
     );
@@ -220,8 +238,9 @@ function App() {
             color="#00BFFF"
             height={100}
             width={100}
-            timeout={10000} //3 secs
+            timeout={10000}
           />
+          <h2> Desktop view only...</h2>
         </div>
       )}
     </div>

@@ -29,9 +29,11 @@ body {
   justify-content: space-between;
 }
 
+.app__lineGraph {
+  height: 240px;
+}
+
 .spinLoader {
-  /* margin: auto;
-  transform: translate(50%, 200%); */
   display: flex;
   justify-content: center;
   align-items: center;

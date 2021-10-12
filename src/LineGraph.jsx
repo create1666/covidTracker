@@ -82,7 +82,7 @@ const chartDataTransformed = (data, caseType) => {
   return newChartData;
 };
 
-const LineGraph = ({ caseType = "cases" }) => {
+const LineGraph = ({ caseType = "cases", ...props }) => {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const LineGraph = ({ caseType = "cases" }) => {
     console.log("caseswehave", newChartData);
   }
   return (
-    <div className="chart">
+    <div className={props.className}>
       {Object.keys(data)?.length > 0 && (
         <Line
           options={options}

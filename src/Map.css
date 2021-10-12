@@ -9,3 +9,29 @@
 .map .leaflet-container {
   height: 100%;
 }
+
+.info-container {
+  width: 150px;
+}
+img {
+  min-height: 80px;
+  min-width: 100px;
+  background-size: cover;
+}
+
+.info-flag {
+  width: 100%;
+  border-radius: 5px;
+}
+.info-recovered,
+.info-name,
+.info-cases,
+.info-deaths {
+  margin-top: 5px;
+  font-size: 16px;
+}
+.info-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}

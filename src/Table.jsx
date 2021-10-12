@@ -1,3 +1,4 @@
+import numeral from "numeral";
 import "./Table.css";
 
 const Table = ({ countries, setCountry, country: selectedCountry }) => {
@@ -19,7 +20,7 @@ const Table = ({ countries, setCountry, country: selectedCountry }) => {
               >
                 <td>{country}</td>
                 <td>
-                  <strong>{cases}</strong>
+                  <strong>{numeral(cases).format("0,0")}</strong>
                 </td>
               </tr>
             );
